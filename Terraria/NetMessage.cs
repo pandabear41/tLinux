@@ -30,7 +30,6 @@
                 SendData(0x19, i, -1, message, 8, 255f, 240f, 20f);
             }
         }
-
         public static void CheckBytes(int i = 9)
         {
             lock (NetMessage.buffer[i])

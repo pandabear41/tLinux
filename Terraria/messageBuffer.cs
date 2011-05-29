@@ -983,11 +983,15 @@
                                     }
                                     else if (str9.Substring(0, 1) == "/")
                                     {
+                                        Player player = Main.player[this.whoAmI];
+                                        Command cmd = new Command();
+                                        cmd.parse(player, str7);
                                         try
                                         {
                                             Player player2;
                                             string[] strArray = str7.Split(new char[] { ' ' });
-                                            Player player = Main.player[this.whoAmI];
+                                            
+                                           
                                             strArray[0] = strArray[0].ToLower();
                                             if ((strArray[0] == "/give") && ((Main.properties["giveEnabled"] != "false") || player.isOP))
                                             {
@@ -1049,6 +1053,7 @@
                                                     NetMessage.SendData(0x19, this.whoAmI, -1, "Invalid NPC: " + strArray[1] + "!", 8, (float) r, (float) g, (float) b);
                                                 }
                                             }
+                                              
                                             else if (strArray[0] == "/rapiddig")
                                             {
                                                 player2 = Main.player[this.whoAmI];
@@ -1119,7 +1124,7 @@
                                                         num107 = 0x34bc;
                                                     }
                                                     else if (strArray[1] == "night")
-                                                    {
+                                                    {   
                                                         NetMessage.broadcastMessage(player.name + " has driven his/her DeLorean to 88 MPH!");
                                                         Main.dayTime = false;
                                                         num107 = 0;

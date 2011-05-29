@@ -240,7 +240,7 @@
         [ThreadStatic]
         public static Random rand;
         public static Texture2D raTexture;
-        private StreamReader reader = new StreamReader("tmod.resource"); 
+        private StreamReader reader; 
         public static Recipe[] recipe = new Recipe[Recipe.maxRecipes];
         public static bool releaseUI = false;
         public static bool resetClouds = true;
@@ -332,6 +332,15 @@
 
         public Main()
         {
+            if (!System.IO.File.Exists("tmod.resource"))
+            {
+                Console.WriteLine("[ERROR] You do not have tmod.resource in your directory.");
+                Environment.Exit(0);
+            }
+            else
+            {
+                reader = new StreamReader("tmod.resource"); 
+            }
             if (!System.IO.File.Exists("bans.txt"))
             {
                 System.IO.File.Create("bans.txt");
