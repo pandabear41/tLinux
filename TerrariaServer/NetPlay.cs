@@ -367,11 +367,13 @@ namespace Terraria
                                     Netplay.serverSock[i].kill = true;
                                 }
                             }
-                            if (Netplay.serverSock[i].statusMax > 0 && Netplay.serverSock[i].statusText2 != "")
+                            try
                             {
-                                if (Netplay.serverSock[i].statusCount >= Netplay.serverSock[i].statusMax)
+                                if (Netplay.serverSock[i].statusMax > 0 && Netplay.serverSock[i].statusText2 != "")
                                 {
-                                    Netplay.serverSock[i].statusText = string.Concat(new object[]
+                                    if (Netplay.serverSock[i].statusCount >= Netplay.serverSock[i].statusMax)
+                                    {
+                                        Netplay.serverSock[i].statusText = string.Concat(new object[]
 									{
 										"(", 
 										Netplay.serverSock[i].tcpClient.Client.RemoteEndPoint, 
@@ -381,13 +383,13 @@ namespace Terraria
 										Netplay.serverSock[i].statusText2, 
 										": Complete!"
 									});
-                                    Netplay.serverSock[i].statusText2 = "";
-                                    Netplay.serverSock[i].statusMax = 0;
-                                    Netplay.serverSock[i].statusCount = 0;
-                                }
-                                else
-                                {
-                                    Netplay.serverSock[i].statusText = string.Concat(new object[]
+                                        Netplay.serverSock[i].statusText2 = "";
+                                        Netplay.serverSock[i].statusMax = 0;
+                                        Netplay.serverSock[i].statusCount = 0;
+                                    }
+                                    else
+                                    {
+                                        Netplay.serverSock[i].statusText = string.Concat(new object[]
 									{
 										"(", 
 										Netplay.serverSock[i].tcpClient.Client.RemoteEndPoint, 
@@ -399,13 +401,13 @@ namespace Terraria
 										(int)((float)Netplay.serverSock[i].statusCount / (float)Netplay.serverSock[i].statusMax * 100f), 
 										"%"
 									});
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                if (Netplay.serverSock[i].state == 0)
+                                else
                                 {
-                                    Netplay.serverSock[i].statusText = string.Concat(new object[]
+                                    if (Netplay.serverSock[i].state == 0)
+                                    {
+                                        Netplay.serverSock[i].statusText = string.Concat(new object[]
 									{
 										"(", 
 										Netplay.serverSock[i].tcpClient.Client.RemoteEndPoint, 
@@ -413,13 +415,13 @@ namespace Terraria
 										Netplay.serverSock[i].name, 
 										" is connecting..."
 									});
-                                }
-                                else
-                                {
-
-                                    if (Netplay.serverSock[i].state == 1)
+                                    }
+                                    else
                                     {
-                                        Netplay.serverSock[i].statusText = string.Concat(new object[]
+
+                                        if (Netplay.serverSock[i].state == 1)
+                                        {
+                                            Netplay.serverSock[i].statusText = string.Concat(new object[]
 										{
 											"(", 
 											Netplay.serverSock[i].tcpClient.Client.RemoteEndPoint, 
@@ -427,12 +429,12 @@ namespace Terraria
 											Netplay.serverSock[i].name, 
 											" is sending player data..."
 										});
-                                    }
-                                    else
-                                    {
-                                        if (Netplay.serverSock[i].state == 2)
+                                        }
+                                        else
                                         {
-                                            Netplay.serverSock[i].statusText = string.Concat(new object[]
+                                            if (Netplay.serverSock[i].state == 2)
+                                            {
+                                                Netplay.serverSock[i].statusText = string.Concat(new object[]
 											{
 												"(", 
 												Netplay.serverSock[i].tcpClient.Client.RemoteEndPoint, 
@@ -440,12 +442,12 @@ namespace Terraria
 												Netplay.serverSock[i].name, 
 												" requested world information"
 											});
-                                        }
-                                        else
-                                        {
-                                            if (Netplay.serverSock[i].state != 3 && Netplay.serverSock[i].state == 10)
+                                            }
+                                            else
                                             {
-                                                Netplay.serverSock[i].statusText = string.Concat(new object[]
+                                                if (Netplay.serverSock[i].state != 3 && Netplay.serverSock[i].state == 10)
+                                                {
+                                                    Netplay.serverSock[i].statusText = string.Concat(new object[]
 												{
 													"(", 
 													Netplay.serverSock[i].tcpClient.Client.RemoteEndPoint, 
@@ -453,10 +455,15 @@ namespace Terraria
 													Netplay.serverSock[i].name, 
 													" is playing"
 												});
+                                                }
                                             }
                                         }
                                     }
                                 }
+                            }
+                            catch (SocketException ex)
+                            {
+
                             }
                         }
                         else
